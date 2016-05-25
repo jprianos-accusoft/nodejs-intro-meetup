@@ -1,0 +1,15 @@
+{
+  "name": "simple-web-server",
+  "version": "1.0.0",
+  "description": "A demo web server for Node.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "Jamison Prianos",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
