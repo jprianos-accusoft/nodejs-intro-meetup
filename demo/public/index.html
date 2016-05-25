@@ -5,5 +5,19 @@
   </head>
   <body>
     <h1>Hello from your Express web app!</h1>
+    <p>
+      Now supporting addition and multiplication of comma-separated lists of integers!
+      <form action="/demo/add" method="GET">
+        <b>Add</b><br />
+        <input name="numbers" value="5,7,13,9,8" />
+        <input type="submit" value="Go!" />
+      </form>
+      <br />
+      <form action="/demo/multiply" method="GET">
+        <b>Multiply</b><br />
+        <input name="numbers" value="3,7,2" />
+        <input type="submit" value="Go!" />
+      </form>
+    </p>
   </body>
 </html>

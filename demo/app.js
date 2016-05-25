@@ -1,16 +1,6 @@
 var express = require('express');
 var server = express();
-
-var operations = {
-  add: numberList => {
-    var sum = numberList.reduce((a, b) => parseInt(a) + parseInt(b), 0).toString();
-    return numberList.join(' + ') + ' = ' + sum;
-  },
-  multiply: numberList => {
-    var product = numberList.reduce((a, b) => parseInt(a) * parseInt(b), 1).toString();
-    return numberList.join(' &middot; ') + ' = ' + product;
-  }
-}
+var operations = require('./operations.js');
 
 server.get('/demo/:operation', (req, res) => {
   var op = req.params.operation;
