@@ -1,45 +1,31 @@
-function addFive(input, callback) {
-  callback(undefined, input + 5);
+function addFive(input) {
+  return Promise.resolve(input + 5);
 }
 
-function multiplyByThree(input, callback) {
-  callback(undefined, input * 3);
+function multiplyByThree(input) {
+  return Promise.resolve(input * 3);
 }
 
-function divideTenByNumber(input, callback) {
-  if (!input || input === 0) {
-    callback(new Error('DivideByZero'));
-  } else {
-    callback(undefined, 10 / input);
-  }
-}
-
-function processValue(value, callback) {
-  addFive(value, (err, result) => {
-    if (err) {
-      callback(err);
+function divideTenByNumber(input) {
+  return new Promise((resolve, reject) => {
+    if (!input || input === 0) {
+      reject(new Error('DivideByZero'));
     } else {
-      multiplyByThree(result, (err, result) => {
-        if (err) {
-          callback(err);
-        } else {
-          divideTenByNumber(result, (err, result) => {
-            if (err) {
-              callback(err);
-            } else {
-              callback(undefined, result);
-            }
-          });
-        }
-      });
+      resolve(10 / input);
     }
   });
 }
 
-processValue(parseInt(process.argv[2]), (err, result) => {
-  if (err) {
-    console.error('Error: ' + err.message);
-  } else {
+function processValue(value) {
+  return addFive(value)
+    .then(multiplyByThree)
+    .then(divideTenByNumber);
+}
+
+processValue(parseInt(process.argv[2]))
+  .then(result => {
     console.log('Result is: ' + result);
-  }
-})
+  })
+  .catch(err => {
+    console.error('Error: ' + err.message);
+  });
