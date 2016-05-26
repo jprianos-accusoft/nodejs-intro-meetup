@@ -5,6 +5,7 @@ var values = process.argv[3];
 
 if (operations[op]) {
   var numbers = values.split(',');
+  debugger;
   var result = operations[op](numbers);
   console.log(result);
 } else {
