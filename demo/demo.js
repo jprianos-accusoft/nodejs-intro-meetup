@@ -1,24 +1,45 @@
-function someAsyncProcess(delay) {
-  return new Promise(function (resolve, reject) {
-    if (!delay || !parseInt(delay)) {
-      reject(new Error('InvalidDelay'));
+function addFive(input, callback) {
+  callback(undefined, input + 5);
+}
+
+function multiplyByThree(input, callback) {
+  callback(undefined, input * 3);
+}
+
+function divideTenByNumber(input, callback) {
+  if (!input || input === 0) {
+    callback(new Error('DivideByZero'));
+  } else {
+    callback(undefined, 10 / input);
+  }
+}
+
+function processValue(value, callback) {
+  addFive(value, (err, result) => {
+    if (err) {
+      callback(err);
     } else {
-      console.log('Processing...');
-      setTimeout(() => {
-        resolve(delay);
-      }, delay);
+      multiplyByThree(result, (err, result) => {
+        if (err) {
+          callback(err);
+        } else {
+          divideTenByNumber(result, (err, result) => {
+            if (err) {
+              callback(err);
+            } else {
+              callback(undefined, result);
+            }
+          });
+        }
+      });
     }
   });
 }
 
-function executeWithPromises(delay) {
-  someAsyncProcess(delay)
-    .then(response => {
-      console.log('Processed for ' + response + 'ms');
-    })
-    .catch(err => {
-      console.error('Error: ' + err.message);
-    });
-}
-
-executeWithPromises(process.argv[2]);
+processValue(parseInt(process.argv[2]), (err, result) => {
+  if (err) {
+    console.error('Error: ' + err.message);
+  } else {
+    console.log('Result is: ' + result);
+  }
+})
